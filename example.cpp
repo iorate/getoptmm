@@ -1,3 +1,12 @@
+/*
+getoptmm
+
+Copyright (c) 2015 iorate
+
+This software is released under the MIT License.
+http://opensource.org/licenses/mit-license.php
+*/
+
 #include "getoptmm.hpp"
 #include <iterator>
 #include <iostream>
@@ -15,10 +24,10 @@ int main(int argc, char *argv[])
     int rhs = 200;
 
     option opts[] = {
-        {{'h'}, {"help"}, no_arg,       store_true(help),        "ヘルプを表示"},
-        {{},    {"op"},   required_arg, store(op),        "OP",  "演算の種類(add,sub,mul,div)"},
-        {{'L'}, {"lhs"},  required_arg, store(lhs),       "LHS", "左(既定値:100)"},
-        {{'R'}, {"rhs"},  required_arg, store(rhs),       "RHS", "右(既定値:200)"}
+        {{'h'}, {"help"}, no_arg,       assign_true(help),        "ヘルプを表示"},
+        {{},    {"op"},   required_arg, assign(op),        "OP",  "演算の種類(add,sub,mul,div)"},
+        {{'L'}, {"lhs"},  required_arg, assign(lhs),       "LHS", "左(既定値:100)"},
+        {{'R'}, {"rhs"},  required_arg, assign(rhs),       "RHS", "右(既定値:200)"}
     };
     parser p(std::begin(opts), std::end(opts), ignore/*ignore non-option arguments*/);
     try {

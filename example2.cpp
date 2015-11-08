@@ -1,3 +1,12 @@
+/*
+getoptmm
+
+Copyright (c) 2015 iorate
+
+This software is released under the MIT License.
+http://opensource.org/licenses/mit-license.php
+*/
+
 #include "getoptmm.hpp"
 #include <iostream>
 #include <iterator>
@@ -32,11 +41,11 @@ int main(int argc, char *argv[])
     std::vector<std::string> files;
 
     option opts[] = {
-        {{'v'},     {"verbose"}, no_arg,       store_true(verbose),                "chatty output on stderr"},
-        {{'V','?'}, {"version"}, no_arg,       store_true(version),                "show version number"},
-        {{'o'},     {"output"},  optional_arg, store_or(output, "stdout"), "FILE", "output FILE"},
-        {{'c'},     {},          optional_arg, store_or(input, "stdin"),   "FILE", "input FILE"},
-        {{'L'},     {"libdir"},  required_arg, push_back(libdirs),         "DIR",  "library directory"}
+        {{'v'},     {"verbose"}, no_arg,       assign_true(verbose),                "chatty output on stderr"},
+        {{'V','?'}, {"version"}, no_arg,       assign_true(version),                "show version number"},
+        {{'o'},     {"output"},  optional_arg, assign_or(output, "stdout"), "FILE", "output FILE"},
+        {{'c'},     {},          optional_arg, assign_or(input, "stdin"),   "FILE", "input FILE"},
+        {{'L'},     {"libdir"},  required_arg, push_back(libdirs),          "DIR",  "library directory"}
     };
 
     auto nonopts = push_back(files);

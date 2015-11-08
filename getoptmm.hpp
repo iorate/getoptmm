@@ -1,3 +1,12 @@
+/*
+getoptmm
+
+Copyright (c) 2015 iorate
+
+This software is released under the MIT License.
+http://opensource.org/licenses/mit-license.php
+*/
+
 #ifndef GETOPTMM_HPP
 #define GETOPTMM_HPP
 
@@ -157,7 +166,7 @@ public:
                     oss << '[' << m_arg_name << ']';
                 }
                 else if (m_arg_type == arg_type::required) {
-                    oss << m_arg_name;
+                    oss << ' ' << m_arg_name;
                 }
             }
             ret[0] = oss.str();
@@ -474,7 +483,7 @@ namespace detail {
     };
 
     template <class T, class U>
-    struct store_const_t
+    struct assign_const_t
     {
         T &t;
         U u;
@@ -498,7 +507,7 @@ namespace detail {
     };
 
     template <class T, class U>
-    struct store_or_t
+    struct assign_or_t
     {
         T &t;
         U u;
@@ -529,16 +538,16 @@ namespace detail {
 constexpr detail::ignore_t ignore = {};
 
 template <class T, class U>
-inline auto store_const(T &t, U &&u)
+inline auto assign_const(T &t, U &&u)
 {
-    return detail::store_const_t<T, std::decay_t<U>>{t, std::forward<U>(u)};
+    return detail::assign_const_t<T, std::decay_t<U>>{t, std::forward<U>(u)};
 }
 
 template <class T>
-inline auto store_true(T &t) { return detail::store_const_t<T, bool>{t, true}; }
+inline auto assign_true(T &t) { return detail::assign_const_t<T, bool>{t, true}; }
 
 template <class T>
-inline auto store_false(T &t) { return detail::store_const_t<T, bool>{t, false}; }
+inline auto assign_false(T &t) { return detail::assign_const_t<T, bool>{t, false}; }
 
 template <class T, class U>
 inline auto push_back_const(T &t, U &&u)
@@ -547,9 +556,9 @@ inline auto push_back_const(T &t, U &&u)
 }
 
 template <class T, class U>
-inline auto store_or(T &t, U &&u)
+inline auto assign_or(T &t, U &&u)
 {
-    return detail::store_or_t<T, std::decay_t<U>>{t, std::forward<U>(u)};
+    return detail::assign_or_t<T, std::decay_t<U>>{t, std::forward<U>(u)};
 }
 
 template <class T, class U>
@@ -559,7 +568,7 @@ inline auto push_back_or(T &t, U &&u)
 }
 
 template <class T>
-inline auto store(T &t)
+inline auto assign(T &t)
 {
     return [&t](auto const &arg)
     {
