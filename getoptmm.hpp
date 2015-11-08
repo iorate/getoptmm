@@ -50,18 +50,18 @@ public:
     using char_type = typename String::value_type;
     using string_type = String;
 
-    template <class NoargHandler>
+    template <class NoArgHandler>
     basic_option(
         std::initializer_list<char_type> short_names,
         std::initializer_list<string_type> long_names,
         no_arg_t,
-        NoargHandler &&handler,
+        NoArgHandler &&handler,
         string_type const &description)
       : m_short_names(short_names),
         m_long_names(long_names),
         m_arg_type(arg_type::none),
         m_handler(
-            [h = std::forward<NoargHandler>(handler)](string_type const *)
+            [h = std::forward<NoArgHandler>(handler)](string_type const *)
             {
                 h();
             }),
@@ -69,19 +69,19 @@ public:
         m_description(description)
     {}
 
-    template <class OptionalargHandler>
+    template <class OptionalArgHandler>
     basic_option(
         std::initializer_list<char_type> short_names,
         std::initializer_list<string_type> long_names,
         optional_arg_t,
-        OptionalargHandler &&handler,
+        OptionalArgHandler &&handler,
         string_type const &arg_name,
         string_type const &description)
       : m_short_names(short_names),
         m_long_names(long_names),
         m_arg_type(arg_type::optional),
         m_handler(
-            [h = std::forward<OptionalargHandler>(handler)](string_type const *a)
+            [h = std::forward<OptionalArgHandler>(handler)](string_type const *a)
             {
                 if (a) { h(*a); }
                 else { h(); }
@@ -90,19 +90,19 @@ public:
         m_description(description)
     {}
 
-    template <class RequiredargHandler>
+    template <class RequiredArgHandler>
     basic_option(
         std::initializer_list<char_type> short_names,
         std::initializer_list<string_type> long_names,
         required_arg_t,
-        RequiredargHandler &&handler,
+        RequiredArgHandler &&handler,
         string_type const &arg_name,
         string_type const &description)
       : m_short_names(short_names),
         m_long_names(long_names),
         m_arg_type(arg_type::required),
         m_handler(
-            [h = std::forward<RequiredargHandler>(handler)](string_type const *a)
+            [h = std::forward<RequiredArgHandler>(handler)](string_type const *a)
             {
                 assert(a);
                 h(*a);
