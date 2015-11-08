@@ -9,6 +9,7 @@ Let's write a simple echo program:
 // include the header
 #include "getoptmm.hpp" 
 
+#include <fstream>
 #include <iostream>
 #include <iterator>
 #include <string>
@@ -19,8 +20,8 @@ int main(int argc, char *argv[])
     using namespace getoptmm;
 
     bool help = false;
-    int cnt = 1;
-    std::string outp;
+    int count = 1;
+    std::string output;
     std::vector<std::string> args;
 
     // define options
@@ -31,11 +32,11 @@ int main(int argc, char *argv[])
         assign_true(help),  // option handler (see below)
         /**/                // argument name (if argument type is optional_arg or required_arg)
         "show help message" // description for help message
-        );
+    );
     option opts[] = {
         helpopt,
-        {{'c'}, {"count"},  required_arg, assign(cnt),  "N",    "show output N[=1] time(s)"},
-        {{'o'}, {"output"}, required_arg, assign(outp), "FILE", "write output to FILE"}
+        {{'c'}, {"count"},  required_arg, assign(count),  "N",    "show output N[=1] time(s)"},
+        {{'o'}, {"output"}, required_arg, assign(output), "FILE", "write output to FILE"}
     };
 
     // create a parser
@@ -51,21 +52,29 @@ int main(int argc, char *argv[])
 
         if (help) {
             // generate help message
-            std::cout << p.get_help("simple-echo [OPTION...] ARGS...") << '\n';
+            std::cout << p.usage_info("simple-echo [OPTION...] ARGS...") << '\n';
             return 0;
         }
 
-        while (cnt-- > 0) {
+        // implementation
+        std::ofstream file;
+        if (!output.empty()) {
+            file.open(output);
+            if (!file) { return 1; }
+        }
+        auto &out = output.empty() ? std::cout : file;
+        while (count-- > 0) {
             for (auto const &a: args) {
-                std::cout << a << ' ';
+                out << a << ' ';
             }
-            std::cout << '\n';
+            out << '\n';
         }
     }
     catch (parser::error const &e) {
         // if a parser fails, an object of parser::error is thrown
-        std::cerr << e.get_message() << "\n\n";
-        std::cout << p.get_help("simple-echo [OPTION...] ARGS...") << '\n';
+        std::cerr << e.message() << "\n\n";
+
+        std::cout << p.usage_info("simple-echo [OPTION...] ARGS...") << '\n';
     }
 };
 ```

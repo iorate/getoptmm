@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
             "files="   << files   << '\n';
 
     } catch (parser::error const &e) {
-        std::cerr << e.get_message() << "\n\n";
-        std::cout << p.get_help("Usage: ic [OPTION...] files...") << '\n';
+        std::cerr << e.message() << "\n\n";
+        std::cout << p.usage_info("Usage: ic [OPTION...] files...") << '\n';
     }
 }

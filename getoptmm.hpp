@@ -149,7 +149,7 @@ public:
         m_handler(&arg);
     }
 
-    std::array<string_type, 3> get_help() const
+    std::array<string_type, 3> usage_info() const
     {
         using ostringstream = std::basic_ostringstream<
             char_type,
@@ -214,7 +214,7 @@ public:
         m_message(message)
     {}
 
-    string_type get_message() const
+    string_type message() const
     {
         return m_message;
     }
@@ -388,14 +388,14 @@ public:
         }
     }
 
-    string_type get_help(string_type const &header) const
+    string_type usage_info(string_type const &header) const
     {
         std::vector<std::array<string_type, 3>> helps;
         helps.reserve(m_options.size());
         auto col0 = 0;
         auto col1 = 0;
         for (auto const &opt: m_options) {
-            auto help = opt.get_help();
+            auto help = opt.usage_info();
             col0 = std::max<int>(col0, help[0].length());
             col1 = std::max<int>(col1, help[1].length());
             helps.push_back(std::move(help));

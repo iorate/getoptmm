@@ -33,13 +33,13 @@ int main(int argc, char *argv[])
     try {
         p.run(argc, argv);
     } catch (parser::error const &e) {
-        std::cerr << e.get_message() << "\n\n";
-        std::cout << p.get_help("オプション") << '\n';
+        std::cerr << e.message() << "\n\n";
+        std::cout << p.usage_info("オプション") << '\n';
         return 1;
     }
 
     if (help || op.empty()) {
-        std::cout << p.get_help("オプション") << '\n';
+        std::cout << p.usage_info("オプション") << '\n';
     } else {
         if (op == "add") std::cout << lhs + rhs << '\n';
         else if (op == "sub") std::cout << lhs - rhs << '\n';
