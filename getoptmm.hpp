@@ -20,6 +20,7 @@ http://opensource.org/licenses/mit-license.php
 #include <regex>
 #include <sstream>
 #include <stdexcept>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -441,7 +442,7 @@ using wparser = basic_parser<std::wstring>;
 
 namespace detail {
 
-    template <class String, class T>
+    template <class String, class T, bool = std::is_convertible<String const &, T>::value>
     struct from_string_t
     {
         T operator()(String const &s) const
@@ -462,10 +463,10 @@ namespace detail {
         }
     };
 
-    template <class String>
-    struct from_string_t<String, String>
+    template <class String, class T>
+    struct from_string_t<String, T, true>
     {
-        String operator()(String const &s) const { return s; }
+        T operator()(String const &s) const { return s; }
     };
 
     template <class T, class String>

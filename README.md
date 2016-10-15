@@ -126,7 +126,7 @@ woption wopt = {
     {L'p'},
     {L"path"},
     required_arg,
-    [&](auto const &arg) { path.push_back(arg); }, // same as push_back(paths)
+    [&](auto const &arg) { paths.push_back(arg); }, // same as push_back(paths)
     L"PATH",
     L"add PATH to paths"
 };
