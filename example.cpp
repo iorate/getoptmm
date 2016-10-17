@@ -1,11 +1,8 @@
-/*
-getoptmm
 
-Copyright (c) 2015 iorate
-
-This software is released under the MIT License.
-http://opensource.org/licenses/mit-license.php
-*/
+// Copyright iorate 2015.
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
 
 #include "getoptmm.hpp"
 #include <iterator>
